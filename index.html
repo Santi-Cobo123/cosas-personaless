@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te Amo Gaby</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .heart {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 50px;
+            z-index: 10;
+            opacity: 0;
+            transform: scale(0);
+            animation: heartFormation 3s ease-out forwards, heartPulse 2s ease-in-out infinite 3s;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 96px;
+            border: 3px solid #ff1744;
+            border-radius: 60px 60px 0 0;
+            background: transparent;
+            box-shadow: 
+                0 0 15px rgba(255, 23, 68, 0.8),
+                0 0 30px rgba(255, 23, 68, 0.4);
+        }
+
+        .heart::before {
+            left: 60px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        @keyframes heartFormation {
+            0% { 
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+            30% {
+                opacity: 0.6;
+                transform: scale(0.5) rotate(180deg);
+            }
+            60% {
+                opacity: 0.8;
+                transform: scale(0.8) rotate(360deg);
+            }
+            80% {
+                opacity: 1;
+                transform: scale(1.1) rotate(360deg);
+            }
+            100% { 
+                opacity: 1;
+                transform: scale(1) rotate(360deg);
+            }
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { 
+                transform: scale(1) rotate(360deg);
+                filter: brightness(1);
+            }
+            50% { 
+                transform: scale(1.1) rotate(360deg);
+                filter: brightness(1.3);
+            }
+        }
+
+        .rays {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            z-index: 5;
+            opacity: 0;
+            animation: raysAppear 1s ease-out forwards 4s;
+        }
+
+        @keyframes raysAppear {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .ray {
+            position: absolute;
+            width: 3px;
+            height: 60px;
+            background: linear-gradient(to bottom, rgba(255, 23, 68, 0.8), transparent);
+            transform-origin: 50% 0%;
+            animation: rayAnimation 2s linear infinite;
+        }
+
+        .ray:nth-child(1) { transform: rotate(0deg); animation-delay: 0s; }
+        .ray:nth-child(2) { transform: rotate(30deg); animation-delay: 0.2s; }
+        .ray:nth-child(3) { transform: rotate(60deg); animation-delay: 0.4s; }
+        .ray:nth-child(4) { transform: rotate(90deg); animation-delay: 0.6s; }
+        .ray:nth-child(5) { transform: rotate(120deg); animation-delay: 0.8s; }
+        .ray:nth-child(6) { transform: rotate(150deg); animation-delay: 1s; }
+        .ray:nth-child(7) { transform: rotate(180deg); animation-delay: 1.2s; }
+        .ray:nth-child(8) { transform: rotate(210deg); animation-delay: 1.4s; }
+        .ray:nth-child(9) { transform: rotate(240deg); animation-delay: 1.6s; }
+        .ray:nth-child(10) { transform: rotate(270deg); animation-delay: 1.8s; }
+        .ray:nth-child(11) { transform: rotate(300deg); animation-delay: 2s; }
+        .ray:nth-child(12) { transform: rotate(330deg); animation-delay: 2.2s; }
+
+        @keyframes rayAnimation {
+            0% {
+                opacity: 0;
+                height: 0px;
+            }
+            50% {
+                opacity: 1;
+                height: 80px;
+            }
+            100% {
+                opacity: 0;
+                height: 120px;
+            }
+        }
+
+        .message {
+            color: #fff;
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 
+                0 0 10px rgba(255, 23, 68, 0.8),
+                0 0 20px rgba(255, 23, 68, 0.6),
+                0 0 30px rgba(255, 23, 68, 0.4);
+            margin-top: 50px;
+            letter-spacing: 3px;
+            min-height: 60px;
+        }
+
+        .letter {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(30px) scale(0.5);
+            animation: letterReveal 0.8s ease-out forwards;
+            color: #fff;
+        }
+
+        @keyframes letterReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.5);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateY(-5px) scale(1.2);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .glowing-letter {
+            animation: letterGlow 2s ease-in-out infinite, letterReveal 0.8s ease-out forwards;
+        }
+
+        @keyframes letterGlow {
+            0%, 100% {
+                color: #fff;
+                text-shadow: 
+                    0 0 10px rgba(255, 23, 68, 0.8),
+                    0 0 20px rgba(255, 23, 68, 0.6),
+                    0 0 30px rgba(255, 23, 68, 0.4);
+            }
+            50% {
+                color: #ff1744;
+                text-shadow: 
+                    0 0 20px rgba(255, 23, 68, 1),
+                    0 0 30px rgba(255, 23, 68, 0.8),
+                    0 0 40px rgba(255, 23, 68, 0.6),
+                    0 0 50px rgba(255, 23, 68, 0.4);
+            }
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ff1744;
+            border-radius: 50%;
+            animation: float 3s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="particles" id="particles"></div>
+        
+        <div class="rays">
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+        </div>
+        
+        <div class="heart"></div>
+        
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        // Crear partículas flotantes
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const numberOfParticles = 20;
+
+            for (let i = 0; i < numberOfParticles; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Posición aleatoria en el ancho de la pantalla
+                particle.style.left = Math.random() * 100 + '%';
+                
+                // Delay aleatorio para la animación
+                particle.style.animationDelay = Math.random() * 3 + 's';
+                
+                // Duración aleatoria de la animación
+                particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Función para crear más partículas dinámicamente
+        function addParticle() {
+            const particlesContainer = document.getElementById('particles');
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            
+            particlesContainer.appendChild(particle);
+            
+            // Eliminar la partícula después de la animación
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 5000);
+        }
+
+        // Función para mostrar el texto letra por letra
+        function typeMessage() {
+            const message = "Te Amo Gaby";
+            const messageElement = document.getElementById('message');
+            messageElement.innerHTML = ''; // Limpiar cualquier contenido previo
+            let i = 0;
+
+            function addLetter() {
+                if (i < message.length) {
+                    const letter = document.createElement('span');
+                    letter.className = 'letter';
+                    
+                    if (message[i] === ' ') {
+                        letter.innerHTML = '&nbsp;'; // Espacio en blanco
+                    } else {
+                        letter.textContent = message[i];
+                    }
+                    
+                    // Agregar delay progresivo para cada letra
+                    letter.style.animationDelay = (i * 0.1) + 's';
+                    
+                    messageElement.appendChild(letter);
+                    i++;
+                    setTimeout(addLetter, 200); // 200ms entre cada letra
+                } else {
+                    // Después de que todas las letras aparezcan, agregar el efecto de brillo
+                    setTimeout(() => {
+                        const letters = messageElement.querySelectorAll('.letter');
+                        letters.forEach(letter => {
+                            letter.classList.add('glowing-letter');
+                        });
+                    }, 800);
+                }
+            }
+            
+            addLetter();
+        }
+
+        // Inicializar partículas
+        createParticles();
+
+        // Comenzar a mostrar el texto después de que se forme el corazón
+        setTimeout(typeMessage, 5000); // 5 segundos después de que inicie la página
+
+        // Agregar nuevas partículas cada 500ms
+        setTimeout(() => {
+            setInterval(addParticle, 500);
+        }, 6000); // Comenzar después de que aparezca el mensaje
+
+        // Hacer que el corazón pulse al hacer clic
+        document.querySelector('.heart').addEventListener('click', function() {
+            this.style.animation = 'heartFormation 3s ease-out forwards, heartbeat 0.8s ease-in-out infinite 3s';
+        });
+
+        // Agregar efecto de escala al mensaje al pasar el mouse
+        setTimeout(() => {
+            document.querySelector('.message').addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.1)';
+                this.style.transition = 'all 0.3s ease';
+            });
+
+            document.querySelector('.message').addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        }, 6000);
+    </script>
+</body>
+</html>
